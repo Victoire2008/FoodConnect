@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Ville; 
 use App\Models\User;
+use Illuminate\Support\Facades\DB; // Ajouté pour les requêtes complexes si besoin
 
 class SearchController extends Controller
 {
@@ -22,23 +23,23 @@ class SearchController extends Controller
         $categories = Category::all();
         $selectedCategory = $categoryId ? Category::find($categoryId) : null;
 
-        // 2. Construction de la requête (On retire le bloc de sécurité qui bloquait tout)
+        // 2. Construction de la requête
         $mealsQuery = Product::select(
                 'products.id',
-        'products.name',
-        'products.image',
-        'products.prix', // Vérifie ici : si ta colonne s'appelle 'prix', mets 'products.prix'
-        'products.category_id',
-        'products.is_available',
-        'products.user_id',
-        'users.name as vendor_name', // Utilise 'nom' si c'est le champ dans ta table User
-        'users.photo as vendor_photo',
-        'users.id as vendor_id'     // Ajouté pour le lien vers la boutique
+                'products.name',
+                'products.image',
+                'products.prix',
+                'products.category_id',
+                'products.is_available',
+                'products.user_id',
+                'users.name as vendor_name',
+                'users.photo as vendor_photo',
+                'users.id as vendor_id'
             )
-            ->join('users', 'users.id', '=', 'products.user_id')
-            ->where('products.is_available', true);
+            ->join('users', 'users.id', '=', 'products.user_id');// <-- FIX : On précise "products."
+             // <-- Optionnel : Vérifie si le vendeur est ouvert
 
-        // 3. Application des filtres UNIQUEMENT s'ils sont présents
+        // 3. Application des filtres
         if ($query && strlen($query) >= 2) {
             $mealsQuery->where('products.name', 'LIKE', "%{$query}%");
         }
@@ -55,7 +56,7 @@ class SearchController extends Controller
             $mealsQuery->where('products.commune_id', $communeId);
         }
 
-        // 4. Exécution : Si aucun filtre, cela prendra tout par défaut
+        // 4. Exécution
         $meals = $mealsQuery->orderBy('products.created_at', 'desc')->get();
 
         return view('search', [

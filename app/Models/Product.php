@@ -48,14 +48,18 @@ class Product extends Model
 
     // Dans App\Models\Product.php
 
-protected static function booted()
+    protected static function booted()
 {
     static::addGlobalScope('active', function ($builder) {
-        $builder->where('is_active', true)
+        // Ajoute "products." devant is_active
+        $builder->where('products.is_active', true) 
                 ->whereHas('user', function($q) {
+                    // Ici, Laravel gère généralement bien le whereHas, 
+                    // mais par sécurité on peut laisser tel quel
                     $q->where('is_open', true);
                 });
     });
 }
+
 }
 
