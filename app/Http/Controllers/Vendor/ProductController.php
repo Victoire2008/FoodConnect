@@ -66,10 +66,14 @@ class ProductController extends Controller
         ]);
 
         // Gestion de l'upload d'image
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-        }
+        // 1. Enregistrer le fichier dans storage/app/public/products
+       $path = $request->file('image')->store('products', 'public');
+
+    // 2. Sauvegarder le CHEMIN dans la base de données
+        Product::create([
+        'name' => $request->name,
+        'image' => $path, // Sauvegarde "products/nom_image.jpg"
+       ]);
 
         // Création du produit
         $product = Product::create([
@@ -80,7 +84,7 @@ class ProductController extends Controller
             'ville_id' => $validated['ville_id'],
             'commune_id' => $validated['commune_id'],
             'user_id' => auth::id(),
-            'image' => $imagePath,
+            'image' => $path,
             'is_available' => $request->has('is_active') ? 1 : 0
         ]);
 

@@ -1,115 +1,55 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#fffcf9] py-12">
+<div class="min-h-screen bg-[#fffcf9] py-8 md:py-12">
     <div class="max-w-3xl mx-auto px-6">
         
-        {{-- Retour et Titre --}}
-        <div class="flex items-center justify-between mb-10">
-            <a href="{{ route('vendeur.dashboard') }}" class="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-semibold text-sm">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                Retour au dashboard
-            </a>
-            <h1 class="text-2xl font-black text-gray-900">Modifier le plat</h1>
+        {{-- Header avec Fil d'Ariane --}}
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+            <div>
+                <a href="{{ route('vendeur.dashboard') }}" class="inline-flex items-center gap-2 text-gray-400 hover:text-orange-500 transition-colors font-bold text-xs uppercase tracking-widest mb-2">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    Tableau de bord
+                </a>
+                <h1 class="text-3xl font-black text-gray-900">Modifier mon plat</h1>
+            </div>
+            
+            {{-- Badge Statut Rapide --}}
+            <div class="hidden md:flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                <span class="w-2 h-2 rounded-full {{ $product->is_visible ? 'bg-green-500' : 'bg-gray-300' }}"></span>
+                <span class="text-[10px] font-black uppercase text-gray-500">{{ $product->is_visible ? 'En ligne' : 'Brouillon' }}</span>
+            </div>
         </div>
 
-        <form action="{{ route('vendeur.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form action="{{ route('vendeur.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
             {{-- SECTION IMAGE --}}
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
-                <label class="block text-sm font-bold text-gray-700 mb-4">Photo du plat</label>
-                <div class="flex flex-col md:flex-row gap-6 items-center">
-                    <div class="w-40 h-40 rounded-[2rem] overflow-hidden bg-gray-100 border-2 border-dashed border-gray-200">
-                        <img id="preview" src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex-1">
-                        <input type="file" name="image" id="image-input" class="hidden" accept="image/*">
-                        <label for="image-input" class="inline-flex items-center gap-2 px-6 py-3 bg-orange-50 text-orange-600 rounded-xl font-bold cursor-pointer hover:bg-orange-100 transition-all">
+            <div class="bg-white p-6 md:p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
+                <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-4">Visuel du produit</label>
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="relative group">
+                        <div class="w-44 h-44 rounded-[2.2rem] overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 group-hover:border-orange-300 transition-colors">
+                            <img id="preview" src="{{ asset('storage/' . $product->image) }}" class="w-full h-full object-cover">
+                        </div>
+                        <label for="image-input" class="absolute -bottom-2 -right-2 w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
                             <i data-lucide="camera" class="w-5 h-5"></i>
-                            Changer la photo
                         </label>
-                        <p class="text-xs text-gray-400 mt-2 italic">Format recommandé : Carré (1:1), max 2Mo</p>
+                    </div>
+                    
+                    <div class="flex-1 text-center md:text-left">
+                        <h4 class="font-bold text-gray-800 mb-1">Changer la photo</h4>
+                        <p class="text-sm text-gray-400 mb-4">Mettez une photo lumineuse pour attirer plus de clients.</p>
+                        <input type="file" name="image" id="image-input" class="hidden" accept="image/*">
+                        @error('image') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </div>
 
             {{-- SECTION INFOS GÉNÉRALES --}}
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-6">
                 {{-- Nom du plat --}}
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Nom du délice</label>
-                    <input type="text" name="name" value="{{ old('name', $product->name) }}"
-                           class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-medium"
-                           placeholder="Ex: Garba Royal, Alloco simple...">
-                </div>
-
-                {{-- Prix --}}
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Prix (FCFA)</label>
-                    <div class="relative">
-                        <input type="number" name="prix" value="{{ old('prix', $product->prix) }}"
-                               class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-black">
-                        <span class="absolute right-5 top-1/2 -translate-y-1/2 text-orange-500 font-bold">FCFA</span>
-                    </div>
-                </div>
-
-                {{-- Catégorie --}}
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Catégorie</label>
-                    <select name="category_id" class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-orange-500 font-medium">
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            {{-- SECTION STATUT (Disponibilité & Visibilité) --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {{-- Toggle Disponibilité --}}
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="chef-hat" class="w-5 h-5 text-orange-500"></i>
-                        <span class="font-bold text-gray-700">Disponible</span>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="is_available" value="1" {{ $product->is_available ? 'checked' : '' }} class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                    </label>
-                </div>
-
-                {{-- Toggle Visibilité --}}
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="eye" class="w-5 h-5 text-gray-400"></i>
-                        <span class="font-bold text-gray-700">Afficher</span>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="is_visible" value="1" {{ $product->is_visible ? 'checked' : '' }} class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                    </label>
-                </div>
-            </div>
-
-            {{-- Bouton de Validation --}}
-            <button type="submit" class="w-full py-5 bg-gray-900 text-white rounded-[2rem] font-black text-lg hover:bg-orange-600 transition-all shadow-xl shadow-gray-200">
-                Enregistrer les modifications
-            </button>
-        </form>
-    </div>
-</div>
-
-<script>
-    // Aperçu de l'image en temps réel
-    document.getElementById('image-input').onchange = evt => {
-        const [file] = evt.target.files;
-        if (file) {
-            document.getElementById('preview').src = URL.createObjectURL(file);
-        }
-    }
-</script>
-@endsection
+                    <label class="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Nom du délice</label>
+                    <input type="
