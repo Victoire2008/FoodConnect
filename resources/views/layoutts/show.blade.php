@@ -39,7 +39,7 @@
     </main>
 
     <footer class="py-10 text-center text-gray-400 text-sm border-t border-gray-100 mt-20">
-        <p>© 2025 FoodConnect.ci — V.B</p>
+        <p>© 2025 FoodConnect.ci — Fait avec passion</p>
     </footer>
 
     <script>
