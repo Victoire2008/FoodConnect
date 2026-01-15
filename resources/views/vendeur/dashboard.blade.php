@@ -2,15 +2,15 @@
     <div class="min-h-screen bg-[#fffcf9] p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
             
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-6">
-                <div class="w-full lg:w-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
                     <h1 class="text-2xl md:text-3xl font-black text-gray-900">Mon Espace Cuisine</h1>
                     <p class="text-gray-500 text-sm md:text-base">Gérez vos plats et suivez vos statistiques en temps réel.</p>
                 </div>
                 
-                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <div class="flex items-center gap-3 self-end sm:self-auto">
                     {{-- Indicateur de statut boutique --}}
-                    <div class="flex-1 lg:flex-none px-4 py-2.5 rounded-2xl border-2 {{ auth()->user()->is_open ? 'border-green-100 bg-green-50' : 'border-red-100 bg-red-50' }} flex items-center gap-3">
+                    <div class="px-3 py-2 rounded-2xl border-2 {{ auth()->user()->is_open ? 'border-green-100 bg-green-50' : 'border-red-100 bg-red-50' }} flex items-center gap-2">
                         <span class="relative flex h-3 w-3">
                             <span class="{{ auth()->user()->is_open ? 'animate-ping bg-green-400' : 'bg-red-400' }} absolute inline-flex h-full w-full rounded-full opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3 {{ auth()->user()->is_open ? 'bg-green-500' : 'bg-red-500' }}"></span>
@@ -23,8 +23,8 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('vendeur.products.create') }}" class="flex-1 lg:flex-none bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-2xl font-bold transition shadow-lg shadow-orange-100 flex items-center justify-center gap-2 text-sm">
-                        <i data-lucide="plus-circle" class="w-5 h-5"></i> <span class="whitespace-nowrap">Ajouter un plat</span>
+                    <a href="{{ route('vendeur.products.create') }}" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2.5 rounded-2xl font-bold transition shadow-lg shadow-orange-100 flex items-center gap-2 text-sm whitespace-nowrap">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> <span>Ajouter un plat</span>
                     </a>
                 </div>
             </div>

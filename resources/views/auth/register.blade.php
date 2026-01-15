@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="pt-6">
-                        <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white px-8 py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-lg shadow-orange-200 transition-all hover:-translate-y-1 active:scale-95">
-                            Créer mon compte vendeur
+                        <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white px-8 py-5 rounded-2xl font-black  uppercase tracking-[0.2em] shadow-lg shadow-orange-200 transition-all hover:-translate-y-1 active:scale-95 text-center">
+                            Créer 
                         </button>
                     </div>
 

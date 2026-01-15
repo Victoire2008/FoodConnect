@@ -1,4 +1,4 @@
-@extends('layouts.show') {{-- Correction de la petite faute de frappe 'layoutts' --}}
+@extends('layoutts.show') {{-- Correction de la petite faute de frappe 'layoutts' --}}
 
 @section('content')
 <div class="min-h-screen bg-[#fffcf9]">

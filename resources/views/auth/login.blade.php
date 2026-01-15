@@ -1,15 +1,15 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-6">
+    <div class="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-4 sm:p-6">
         <div class="w-full max-w-md">
-            
-            <div class="text-center mb-10">
-                <div class="text-4xl font-black bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent italic tracking-tighter mb-2">
+
+            <div class="text-center mb-8 sm:mb-10">
+                <div class="text-2xl sm:text-4xl font-black bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent italic tracking-tighter mb-2">
                     FoodConnect.ci
                 </div>
-                <p class="text-slate-500 font-medium">Bon retour ! Connectez-vous à votre espace.</p>
+                <p class="text-slate-500 font-medium text-sm sm:text-base">Bon retour ! Connectez-vous à votre espace.</p>
             </div>
 
-            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-orange-100/50 border border-orange-50 p-10">
+            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-orange-100/50 border border-orange-50 p-6 sm:p-10">
                 
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white px-8 py-5 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg shadow-orange-200 transition-all hover:-translate-y-1 active:scale-95">
+                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white px-6 sm:px-8 py-4 sm:py-5 rounded-2xl font-black text-sm sm:text-base uppercase tracking-widest shadow-lg shadow-orange-200 transition-all hover:-translate-y-1 active:scale-95">
                             Se connecter
                         </button>
                     </div>

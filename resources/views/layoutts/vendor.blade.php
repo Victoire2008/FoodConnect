@@ -12,8 +12,8 @@
 </head>
 <body class="bg-[#FAFAFA] text-slate-800 antialiased font-sans">
 
-<div class="flex min-h-screen">
-    <aside class="w-72 bg-white border-r border-slate-100 flex flex-col fixed h-full z-50">
+<div class="flex flex-col md:flex-row min-h-screen">
+    <aside class="w-full md:w-64 bg-white border-r border-slate-100 flex flex-col fixed md:relative h-full z-50">
         <div class="p-8">
             <div class="text-2xl font-black bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent italic tracking-tighter">
                 FoodConnect.ci
@@ -37,7 +37,7 @@
           
         </nav>
 
-        <div class="p-4 border-t border-slate-50">
+        <div class="p-4 md:p-8 border-t border-slate-50">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-400 hover:bg-red-50 hover:text-red-600 transition-all font-bold text-sm">
@@ -48,8 +48,8 @@
         </div>
     </aside>
 
-    <main class="flex-1 ml-72">
-        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-8 flex items-center justify-between">
+    <main class="flex-1 md:ml-64">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 md:px-8 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <span class="text-slate-400 text-sm font-medium italic">Bienvenue,</span>
                 <span class="text-slate-900 font-black text-sm uppercase">{{ auth()->user()->name }}</span>
